@@ -1,17 +1,16 @@
 import { useEffect } from 'react'
 import './App.css'
-import socket from './socket-client'
 
 function App() {
-
   useEffect(() => {
-    socket.on('connected', (msg) => {
-      console.log(msg, "Coneccion establecida");
-    });
-    return () => {
-      socket.off('message');
-    };
-  }, []);
+    const socket = new WebSocket('wss://ws.bitmex.com/realtime?subscribe=instrument,orderBookL2_25:XBTUSD');
+    socket.onopen = () => console.log('Conectado al servidor de WebSocket');
+
+    // socket.onmessage = ({data}) => {
+    //   console.log('Mensaje recibido:', data);
+    // }
+
+   }, []);
   
   return (
     <>
