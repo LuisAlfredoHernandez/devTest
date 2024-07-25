@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import "./App.css";
-import MainPage from "./components/MainPage";
+import InstrumentsTable from "./components/InstrumentsTable";
 import { useState } from "react";
 
 function App() {
@@ -36,7 +36,19 @@ function App() {
   return (
     <>
       <div className="parent-container">
-        <MainPage instruments={instrumentsData} />
+        <div className="h-0">
+          <h1 className="mt-10 text-center font-mono:hover">
+            {"''WHAT'S ON THE MARKET?!!''"}
+          </h1>
+        </div>
+        <InstrumentsTable instruments={instrumentsData} />
+        <p className="font-mono text-lg	">
+          Aqui puede observar los valores ofrecidos en el mercado en tiempo
+          real.
+          <br />
+          Desde su cotizacion actual hasta su comparacion a como se cotizaba en
+          las ultimas 24 horas.
+        </p>
       </div>
     </>
   );
