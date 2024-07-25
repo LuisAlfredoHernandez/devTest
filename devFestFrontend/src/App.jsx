@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import "./App.css";
 import InstrumentsTable from "./components/InstrumentsTable";
 import { useState } from "react";
+import HistoricTransactionTable from "./components/HistoricTransactionsTable";
+import Title from "./components/Titles";
 
 function App() {
   const [transactionData, setTransactionData] = useState([]);
@@ -15,19 +17,22 @@ function App() {
 
     socket.onmessage = function (response) {
       const parsedResponse = JSON.parse(response.data);
-      console.log(parsedResponse);
       if ("table" in parsedResponse) {
         if (
           parsedResponse.table === "instrument" &&
           parsedResponse.data.length > 10
         )
           setInstrumentsData(parsedResponse);
-        else if (parsedResponse.table === "orderBookL2_25")
+        else if (
+          parsedResponse.table === "orderBookL2_25" &&
+          parsedResponse.data.length > 10
+        )
           setTransactionData(parsedResponse);
+        console.log(parsedResponse);
       }
 
       setTimeout(() => {
-        console.log("Cerrando la conexión WebSocket después de 5 segundos.");
+        console.log("Cerrando la conexión WebSocket después de 1 segundos.");
         socket.close();
       }, 1000);
     };
@@ -35,21 +40,17 @@ function App() {
 
   return (
     <>
-      <div className="parent-container">
-        <div className="h-0">
-          <h1 className="mt-10 text-center font-mono:hover">
-            {"''WHAT'S ON THE MARKET?!!''"}
-          </h1>
-        </div>
-        <InstrumentsTable instruments={instrumentsData} />
-        <p className="font-mono text-lg	">
-          Aqui puede observar los valores ofrecidos en el mercado en tiempo
-          real.
-          <br />
-          Desde su cotizacion actual hasta su comparacion a como se cotizaba en
-          las ultimas 24 horas.
-        </p>
-      </div>
+      <Title text={"''WHAT'S ON THE MARKET?!!''"} />
+      <InstrumentsTable instruments={instrumentsData} />
+      <p className="font-mono text-lg mt-5">
+        Aqui puede observar los valores ofrecidos en el mercado en tiempo real.
+        <br />
+        Desde su cotizacion actual hasta su comparacion a como se cotizaba en
+        las ultimas 24 horas.
+      </p>
+
+      <Title text={"REAL TIME TRANSACTIONS"} />
+      <HistoricTransactionTable transactions={transactionData} />
     </>
   );
 }
