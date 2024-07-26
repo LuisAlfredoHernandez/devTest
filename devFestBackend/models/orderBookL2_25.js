@@ -2,7 +2,7 @@ const { model, Schema } = require("mongoose");
 
 const OrderBookL2_25 = Schema({
   price: {
-    type: Number, //Number
+    type: Number,
     required: [true, "El precio es requerido!"],
   },
   size: {
