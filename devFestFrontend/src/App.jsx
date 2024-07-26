@@ -4,17 +4,26 @@ import InstrumentsTable from "./components/InstrumentsTable";
 import { useState } from "react";
 import HistoricTransactionTable from "./components/HistoricTransactionsTable";
 import Title from "./components/Titles";
+import { saveInstrumentsToDB, saveOrderBooksToDB } from "./services";
 
 function App() {
   const [transactionData, setTransactionData] = useState([]);
   const [instrumentsData, setInstrumentsData] = useState([]);
 
-  useEffect(() => {
+  const updateTransactionData = (transactions) => {
+    setTransactionData(transactions);
+    saveOrderBooksToDB(transactions);
+  };
+
+  const updateInstrumentsData = (instruments) => {
+    setInstrumentsData(instruments);
+    saveInstrumentsToDB(instruments);
+  };
+
+  const socketSetup = () => {
     const socket = new WebSocket(
       "wss://ws.bitmex.com/realtime?subscribe=instrument,orderBookL2_25:XBT"
     );
-    socket.onopen = () => console.log("Conectado al servidor de WebSocket");
-
     socket.onmessage = function (response) {
       const parsedResponse = JSON.parse(response.data);
       if ("table" in parsedResponse) {
@@ -22,26 +31,30 @@ function App() {
           parsedResponse.table === "instrument" &&
           parsedResponse.data.length > 10
         )
-          setInstrumentsData(parsedResponse);
+          updateInstrumentsData(parsedResponse);
         else if (
           parsedResponse.table === "orderBookL2_25" &&
           parsedResponse.data.length > 10
         )
-          setTransactionData(parsedResponse);
-        console.log(parsedResponse);
+          updateTransactionData(parsedResponse);
       }
-
       setTimeout(() => {
-        console.log("Cerrando la conexión WebSocket después de 1 segundos.");
         socket.close();
       }, 1000);
     };
+  };
+
+  useEffect(() => {
+    socketSetup();
   }, []);
 
   return (
     <>
       <Title text={"''WHAT'S ON THE MARKET?!!''"} />
-      <InstrumentsTable instruments={instrumentsData} />
+      <InstrumentsTable
+        setData={setInstrumentsData}
+        instruments={instrumentsData}
+      />
       <p className="font-mono text-lg mt-5">
         Aqui puede observar los valores ofrecidos en el mercado en tiempo real.
         <br />
@@ -50,7 +63,10 @@ function App() {
       </p>
 
       <Title text={"REAL TIME TRANSACTIONS"} />
-      <HistoricTransactionTable transactions={transactionData} />
+      <HistoricTransactionTable
+        setData={setTransactionData}
+        transactions={transactionData}
+      />
     </>
   );
 }
