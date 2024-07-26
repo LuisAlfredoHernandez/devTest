@@ -1,15 +1,15 @@
-const { Router } = require('express');
-const { saveResource, getResources, deleteResource, getResourceByParam } = require('../controllers/resource');
+const { Router } = require("express");
+const {
+  getInstruments,
+  getInstrumentByParam,
+  saveInstruments,
+} = require("../controllers/instruments");
 const router = Router();
 
+router.get("/", getInstruments);
 
-router.get('/', getResources)
+router.get("/:value", getInstrumentByParam);
 
-router.get('/:key/:value', getResourceByParam)
+router.post("/", saveInstruments);
 
-router.post('/', saveResource)
-
-router.delete('/:nombreImagen', deleteResource)
-
-
-module.exports = router
+module.exports = router;

@@ -8,7 +8,8 @@ class Server {
     this.app = express();
     this.port = process.env.PORT || 8080;
     this.paths = {
-      resource: "/api/resource",
+      instruments: "/api/instruments",
+      orderBook: "/api/orderbook",
     };
     this.middleware();
     this.conectarDB();
@@ -28,7 +29,8 @@ class Server {
   }
 
   routes() {
-    this.app.use(this.paths.resource, require("../routes/resource"));
+    this.app.use(this.paths.instruments, require("../routes/instruments"));
+    this.app.use(this.paths.orderBook, require("../routes/orderBook"));
   }
 
   listen() {

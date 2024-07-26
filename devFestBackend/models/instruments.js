@@ -33,7 +33,6 @@ const Instruments = Schema({
   },
   openValue: {
     type: Number,
-    default: 0,
   },
   prevPrice24h: {
     type: Number,
@@ -61,7 +60,6 @@ const Instruments = Schema({
   },
   taxed: {
     type: Boolean,
-    default: false,
   },
   tickSize: {
     type: Number,

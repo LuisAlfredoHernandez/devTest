@@ -8,7 +8,7 @@ const OrderBookL2_25 = Schema({
   size: {
     type: String,
   },
-  Symbol: {
+  symbol: {
     type: String,
     required: [true, "El simbolo del recurso es requerido!"],
   },
