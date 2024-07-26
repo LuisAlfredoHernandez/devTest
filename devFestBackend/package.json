@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "mongoose": "^7.2.4",
+    "nodemon": "^2.0.22"
+  },
+  "name": "mm",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisAlfredoHernandez/MMRESTfullAPI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuisAlfredoHernandez/MMRESTfullAPI/issues"
+  },
+  "homepage": "https://github.com/LuisAlfredoHernandez/MMRESTfullAPI#readme",
+  "description": ""
+}
